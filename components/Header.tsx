@@ -36,6 +36,12 @@ export default function Header() {
             >
               ✨ Collections
             </Link>
+            <Link 
+              href="/about" 
+              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2"
+            >
+              ℹ️ About
+            </Link>
           </div>
           
           {/* Mobile menu button */}
@@ -76,6 +82,13 @@ export default function Header() {
                 onClick={closeMobileMenu}
               >
                 ✨ Collections
+              </Link>
+              <Link 
+                href="/about" 
+                className="block text-foreground hover:text-primary transition-colors font-medium py-2 flex items-center gap-2"
+                onClick={closeMobileMenu}
+              >
+                ℹ️ About
               </Link>
             </div>
           </div>

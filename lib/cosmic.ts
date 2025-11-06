@@ -1,5 +1,5 @@
 import { createBucketClient } from '@cosmicjs/sdk'
-import { Product, Collection, Review, Category, Post, Author, BlogCategory, User, Event, CosmicResponse } from '@/types'
+import { Product, Collection, Review, Category, Post, Author, BlogCategory, User, Event, TermsOfService, CosmicResponse } from '@/types'
 
 export const cosmic = createBucketClient({
   bucketSlug: process.env.COSMIC_BUCKET_SLUG as string,
@@ -598,5 +598,26 @@ export async function getUserById(id: string): Promise<User | null> {
       return null;
     }
     throw new Error(`Failed to fetch user by ID: ${id}`);
+  }
+}
+
+// ============= TERMS OF SERVICE FUNCTIONS =============
+
+// Fetch Terms of Service
+export async function getTermsOfService(): Promise<TermsOfService | null> {
+  try {
+    const response = await cosmic.objects
+      .find({ type: 'terms-of-service' })
+      .props(['id', 'title', 'slug', 'metadata'])
+      .depth(1);
+    
+    const termsObjects = response.objects as TermsOfService[];
+    // Return the first (and should be only) terms object
+    return termsObjects[0] ?? null;
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return null;
+    }
+    throw new Error('Failed to fetch terms of service');
   }
 }

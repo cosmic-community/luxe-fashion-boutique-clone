@@ -43,7 +43,7 @@ export interface Product extends CosmicObject {
       imgix_url: string;
     }[];
     designer_brand?: string;
-    category?: SelectDropdownField; // Fixed: category is a select-dropdown field, not Category object
+    category?: SelectDropdownField;
     sizes_available?: string[];
     materials?: string;
     care_instructions?: string;
@@ -83,6 +83,55 @@ export interface Review extends CosmicObject {
   };
 }
 
+// Blog Author interface
+export interface Author extends CosmicObject {
+  type: 'authors';
+  metadata: {
+    name?: string;
+    bio?: string;
+    avatar?: {
+      url: string;
+      imgix_url: string;
+    };
+    email?: string;
+    social_links?: {
+      twitter?: string;
+      instagram?: string;
+      linkedin?: string;
+    };
+  };
+}
+
+// Blog Category interface
+export interface BlogCategory extends CosmicObject {
+  type: 'blog-categories';
+  metadata: {
+    name?: string;
+    description?: string;
+    color?: string;
+  };
+}
+
+// Blog Post interface
+export interface Post extends CosmicObject {
+  type: 'posts';
+  metadata: {
+    title?: string;
+    excerpt?: string;
+    content?: string;
+    featured_image?: {
+      url: string;
+      imgix_url: string;
+    };
+    author?: Author;
+    category?: BlogCategory;
+    tags?: string[];
+    published_date?: string;
+    featured_post?: boolean;
+    read_time?: number;
+  };
+}
+
 // Type literals for select-dropdown values
 export type ProductSize = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 export type RatingValue = '1' | '2' | '3' | '4' | '5';
@@ -115,4 +164,16 @@ export function isReview(obj: CosmicObject): obj is Review {
 
 export function isCategory(obj: CosmicObject): obj is Category {
   return obj.type === 'categories';
+}
+
+export function isPost(obj: CosmicObject): obj is Post {
+  return obj.type === 'posts';
+}
+
+export function isAuthor(obj: CosmicObject): obj is Author {
+  return obj.type === 'authors';
+}
+
+export function isBlogCategory(obj: CosmicObject): obj is BlogCategory {
+  return obj.type === 'blog-categories';
 }

@@ -1,5 +1,5 @@
 import { createBucketClient } from '@cosmicjs/sdk'
-import { Product, Collection, Review, Category, CosmicResponse } from '@/types'
+import { Product, Collection, Review, Category, Post, Author, BlogCategory, CosmicResponse } from '@/types'
 
 export const cosmic = createBucketClient({
   bucketSlug: process.env.COSMIC_BUCKET_SLUG as string,
@@ -268,5 +268,190 @@ export async function getReviews(): Promise<Review[]> {
       return [];
     }
     throw new Error('Failed to fetch reviews');
+  }
+}
+
+// ============= BLOG FUNCTIONS =============
+
+// Fetch all blog posts
+export async function getPosts(): Promise<Post[]> {
+  try {
+    const response = await cosmic.objects
+      .find({ type: 'posts' })
+      .props(['id', 'title', 'slug', 'metadata', 'created_at'])
+      .depth(1);
+    
+    const posts = response.objects as Post[];
+    // Sort by published_date (newest first)
+    return posts.sort((a, b) => {
+      const dateA = new Date(a.metadata?.published_date || a.created_at).getTime();
+      const dateB = new Date(b.metadata?.published_date || b.created_at).getTime();
+      return dateB - dateA;
+    });
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return [];
+    }
+    throw new Error('Failed to fetch posts');
+  }
+}
+
+// Fetch single post by slug
+export async function getPost(slug: string): Promise<Post | null> {
+  try {
+    const response = await cosmic.objects
+      .findOne({ type: 'posts', slug })
+      .props(['id', 'title', 'slug', 'metadata', 'created_at'])
+      .depth(1);
+    
+    return response.object as Post;
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return null;
+    }
+    throw new Error(`Failed to fetch post: ${slug}`);
+  }
+}
+
+// Fetch featured posts
+export async function getFeaturedPosts(): Promise<Post[]> {
+  try {
+    const response = await cosmic.objects
+      .find({ 
+        type: 'posts',
+        'metadata.featured_post': true
+      })
+      .props(['id', 'title', 'slug', 'metadata', 'created_at'])
+      .depth(1);
+    
+    const posts = response.objects as Post[];
+    return posts.sort((a, b) => {
+      const dateA = new Date(a.metadata?.published_date || a.created_at).getTime();
+      const dateB = new Date(b.metadata?.published_date || b.created_at).getTime();
+      return dateB - dateA;
+    });
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return [];
+    }
+    throw new Error('Failed to fetch featured posts');
+  }
+}
+
+// Fetch posts by blog category
+export async function getPostsByCategory(categoryId: string): Promise<Post[]> {
+  try {
+    const response = await cosmic.objects
+      .find({ 
+        type: 'posts',
+        'metadata.category': categoryId
+      })
+      .props(['id', 'title', 'slug', 'metadata', 'created_at'])
+      .depth(1);
+    
+    const posts = response.objects as Post[];
+    return posts.sort((a, b) => {
+      const dateA = new Date(a.metadata?.published_date || a.created_at).getTime();
+      const dateB = new Date(b.metadata?.published_date || b.created_at).getTime();
+      return dateB - dateA;
+    });
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return [];
+    }
+    throw new Error(`Failed to fetch posts for category: ${categoryId}`);
+  }
+}
+
+// Fetch posts by author
+export async function getPostsByAuthor(authorId: string): Promise<Post[]> {
+  try {
+    const response = await cosmic.objects
+      .find({ 
+        type: 'posts',
+        'metadata.author': authorId
+      })
+      .props(['id', 'title', 'slug', 'metadata', 'created_at'])
+      .depth(1);
+    
+    const posts = response.objects as Post[];
+    return posts.sort((a, b) => {
+      const dateA = new Date(a.metadata?.published_date || a.created_at).getTime();
+      const dateB = new Date(b.metadata?.published_date || b.created_at).getTime();
+      return dateB - dateA;
+    });
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return [];
+    }
+    throw new Error(`Failed to fetch posts for author: ${authorId}`);
+  }
+}
+
+// Fetch all authors
+export async function getAuthors(): Promise<Author[]> {
+  try {
+    const response = await cosmic.objects
+      .find({ type: 'authors' })
+      .props(['id', 'title', 'slug', 'metadata'])
+      .depth(1);
+    
+    return response.objects as Author[];
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return [];
+    }
+    throw new Error('Failed to fetch authors');
+  }
+}
+
+// Fetch single author by slug
+export async function getAuthor(slug: string): Promise<Author | null> {
+  try {
+    const response = await cosmic.objects
+      .findOne({ type: 'authors', slug })
+      .props(['id', 'title', 'slug', 'metadata'])
+      .depth(1);
+    
+    return response.object as Author;
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return null;
+    }
+    throw new Error(`Failed to fetch author: ${slug}`);
+  }
+}
+
+// Fetch all blog categories
+export async function getBlogCategories(): Promise<BlogCategory[]> {
+  try {
+    const response = await cosmic.objects
+      .find({ type: 'blog-categories' })
+      .props(['id', 'title', 'slug', 'metadata'])
+      .depth(1);
+    
+    return response.objects as BlogCategory[];
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return [];
+    }
+    throw new Error('Failed to fetch blog categories');
+  }
+}
+
+// Fetch single blog category by slug
+export async function getBlogCategory(slug: string): Promise<BlogCategory | null> {
+  try {
+    const response = await cosmic.objects
+      .findOne({ type: 'blog-categories', slug })
+      .props(['id', 'title', 'slug', 'metadata'])
+      .depth(1);
+    
+    return response.object as BlogCategory;
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return null;
+    }
+    throw new Error(`Failed to fetch blog category: ${slug}`);
   }
 }

@@ -55,9 +55,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (existingItemIndex > -1) {
         // Update quantity of existing item
         const updatedItems = [...currentItems]
-        updatedItems[existingItemIndex] = {
-          ...updatedItems[existingItemIndex],
-          quantity: updatedItems[existingItemIndex].quantity + quantity
+        const existingItem = updatedItems[existingItemIndex]
+        
+        // Changed: Added explicit check for existingItem to satisfy TypeScript
+        if (existingItem) {
+          updatedItems[existingItemIndex] = {
+            ...existingItem,
+            quantity: existingItem.quantity + quantity
+          }
         }
         return updatedItems
       } else {

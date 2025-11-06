@@ -91,6 +91,9 @@ export default function Footer() {
         
         <div className="border-t mt-8 pt-8 text-center text-muted-foreground">
           <p>&copy; {currentYear} Luxe Fashion Boutique. All rights reserved.</p>
+          <div className="mt-2 flex justify-center gap-4 text-sm">
+            <a href="/terms" className="hover:text-foreground">Terms of Service</a>
+          </div>
         </div>
       </div>
     </footer>

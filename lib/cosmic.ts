@@ -1,5 +1,5 @@
 import { createBucketClient } from '@cosmicjs/sdk'
-import { Product, Collection, Review, Category, Post, Author, BlogCategory, CosmicResponse } from '@/types'
+import { Product, Collection, Review, Category, Post, Author, BlogCategory, User, CosmicResponse } from '@/types'
 
 export const cosmic = createBucketClient({
   bucketSlug: process.env.COSMIC_BUCKET_SLUG as string,
@@ -453,5 +453,49 @@ export async function getBlogCategory(slug: string): Promise<BlogCategory | null
       return null;
     }
     throw new Error(`Failed to fetch blog category: ${slug}`);
+  }
+}
+
+// ============= USER AUTHENTICATION FUNCTIONS =============
+
+// Fetch user by email
+export async function getUserByEmail(email: string): Promise<User | null> {
+  try {
+    const response = await cosmic.objects
+      .find({ 
+        type: 'users',
+        'metadata.email': email
+      })
+      .props(['id', 'title', 'slug', 'metadata'])
+      .depth(1);
+    
+    const users = response.objects as User[];
+    // Changed: Use optional chaining to safely access array element
+    return users[0] ?? null;
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return null;
+    }
+    throw new Error(`Failed to fetch user by email: ${email}`);
+  }
+}
+
+// Fetch user by ID
+export async function getUserById(id: string): Promise<User | null> {
+  try {
+    const response = await cosmic.objects
+      .findOne({ 
+        type: 'users',
+        id
+      })
+      .props(['id', 'title', 'slug', 'metadata'])
+      .depth(1);
+    
+    return response.object as User;
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return null;
+    }
+    throw new Error(`Failed to fetch user by ID: ${id}`);
   }
 }

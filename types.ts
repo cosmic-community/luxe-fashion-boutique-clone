@@ -132,6 +132,29 @@ export interface Post extends CosmicObject {
   };
 }
 
+// User interface for authentication
+export interface User extends CosmicObject {
+  type: 'users';
+  metadata: {
+    name?: string;
+    email?: string;
+    password_hash?: string;
+    created_at?: string;
+    last_login?: string | null;
+    profile_image?: {
+      url: string;
+      imgix_url: string;
+    };
+  };
+}
+
+// Auth User interface (for JWT payload)
+export interface AuthUser {
+  userId: string;
+  email: string;
+  name?: string;
+}
+
 // Type literals for select-dropdown values
 export type ProductSize = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 export type RatingValue = '1' | '2' | '3' | '4' | '5';
@@ -176,4 +199,8 @@ export function isAuthor(obj: CosmicObject): obj is Author {
 
 export function isBlogCategory(obj: CosmicObject): obj is BlogCategory {
   return obj.type === 'blog-categories';
+}
+
+export function isUser(obj: CosmicObject): obj is User {
+  return obj.type === 'users';
 }

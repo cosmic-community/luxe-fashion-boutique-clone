@@ -470,8 +470,8 @@ export async function getUserByEmail(email: string): Promise<User | null> {
       .depth(1);
     
     const users = response.objects as User[];
-    // Changed: Return null instead of undefined to match return type
-    return users.length > 0 ? users[0] : null;
+    // Changed: Use optional chaining to safely access array element
+    return users[0] ?? null;
   } catch (error) {
     if (hasStatus(error) && error.status === 404) {
       return null;

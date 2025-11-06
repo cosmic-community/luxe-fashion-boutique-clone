@@ -51,10 +51,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (existingItemIndex > -1) {
         // Update quantity if item exists
         const newCart = [...currentCart]
-        newCart[existingItemIndex] = {
-          ...newCart[existingItemIndex],
-          quantity: newCart[existingItemIndex].quantity + 1
+        const existingItem = newCart[existingItemIndex]
+        
+        // Add type safety check for array access
+        if (existingItem) {
+          newCart[existingItemIndex] = {
+            ...existingItem,
+            quantity: existingItem.quantity + 1
+          }
         }
+        
         return newCart
       } else {
         // Add new item

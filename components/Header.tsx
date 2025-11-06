@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { ShoppingBag, ShoppingCart, Sparkles, Info, Menu, X, MessageSquare, Mail, BookOpen, UserPlus, LogIn } from 'lucide-react'
+import { ShoppingBag, ShoppingCart, Sparkles, Info, Menu, X, MessageSquare, Mail, BookOpen, UserPlus, LogIn, Calendar } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 
 export default function Header() {
@@ -48,6 +48,13 @@ export default function Header() {
             >
               <BookOpen className="w-4 h-4" />
               Blog
+            </Link>
+            <Link 
+              href="/events" 
+              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap"
+            >
+              <Calendar className="w-4 h-4" />
+              Events
             </Link>
             <Link 
               href="/testimonials" 
@@ -140,6 +147,14 @@ export default function Header() {
               >
                 <BookOpen className="w-4 h-4" />
                 Blog
+              </Link>
+              <Link 
+                href="/events" 
+                className="block text-foreground hover:text-primary transition-colors font-medium py-2 flex items-center gap-2"
+                onClick={closeMobileMenu}
+              >
+                <Calendar className="w-4 h-4" />
+                Events
               </Link>
               <Link 
                 href="/testimonials" 

@@ -21,58 +21,58 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b bg-white shadow-sm">
       <div className="container mx-auto px-4 py-4">
-        <nav className="flex items-center justify-between">
-          <Link href="/" className="text-2xl font-bold text-primary">
+        <nav className="flex items-center justify-between gap-4">
+          <Link href="/" className="text-2xl font-bold text-primary whitespace-nowrap">
             Luxe Fashion Boutique
           </Link>
           
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center gap-6 flex-wrap justify-end flex-1">
             <Link 
               href="/products" 
-              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2"
+              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap"
             >
               <ShoppingBag className="w-4 h-4" />
               Products
             </Link>
             <Link 
               href="/collections" 
-              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2"
+              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap"
             >
               <Sparkles className="w-4 h-4" />
               Collections
             </Link>
             <Link 
               href="/blog" 
-              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2"
+              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap"
             >
               <BookOpen className="w-4 h-4" />
               Blog
             </Link>
             <Link 
               href="/testimonials" 
-              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2"
+              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap"
             >
               <MessageSquare className="w-4 h-4" />
               Testimonials
             </Link>
             <Link 
               href="/about" 
-              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2"
+              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap"
             >
               <Info className="w-4 h-4" />
               About
             </Link>
             <Link 
               href="/contact" 
-              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2"
+              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap"
             >
               <Mail className="w-4 h-4" />
               Contact
             </Link>
             <Link 
               href="/cart" 
-              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2 relative"
+              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-1.5 relative whitespace-nowrap"
             >
               <ShoppingCart className="w-4 h-4" />
               Cart
@@ -84,14 +84,14 @@ export default function Header() {
             </Link>
             <Link 
               href="/login" 
-              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2"
+              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap"
             >
               <LogIn className="w-4 h-4" />
               Login
             </Link>
             <Link 
               href="/signup" 
-              className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors font-medium flex items-center gap-2"
+              className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap"
             >
               <UserPlus className="w-4 h-4" />
               Sign Up
@@ -100,7 +100,7 @@ export default function Header() {
           
           {/* Mobile menu button */}
           <button 
-            className="md:hidden p-2 rounded-md hover:bg-gray-100 transition-colors"
+            className="lg:hidden p-2 rounded-md hover:bg-gray-100 transition-colors"
             onClick={toggleMobileMenu}
             aria-label="Toggle mobile menu"
             aria-expanded={isMobileMenuOpen}
@@ -115,7 +115,7 @@ export default function Header() {
 
         {/* Mobile Navigation Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-gray-200">
+          <div className="lg:hidden mt-4 pb-4 border-t border-gray-200">
             <div className="pt-4 space-y-3">
               <Link 
                 href="/products" 

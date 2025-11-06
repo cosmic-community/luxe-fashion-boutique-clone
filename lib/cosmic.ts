@@ -338,9 +338,10 @@ export async function getFeaturedPosts(): Promise<Post[]> {
   }
 }
 
-// Fetch posts by blog category
+// Changed: Fetch posts by blog category - now handles both ID and fallback to client-side filtering
 export async function getPostsByCategory(categoryId: string): Promise<Post[]> {
   try {
+    // First try to query by category ID directly
     const response = await cosmic.objects
       .find({ 
         type: 'posts',
@@ -357,8 +358,24 @@ export async function getPostsByCategory(categoryId: string): Promise<Post[]> {
     });
   } catch (error) {
     if (hasStatus(error) && error.status === 404) {
-      return [];
+      // Changed: If no posts found via direct query, try client-side filtering as fallback
+      console.log(`No posts found for category ID ${categoryId}, trying client-side filter...`);
+      try {
+        const allPosts = await getPosts();
+        const filteredPosts = allPosts.filter(post => {
+          const postCategory = post.metadata?.category;
+          return postCategory && 
+                 typeof postCategory === 'object' && 
+                 'id' in postCategory && 
+                 postCategory.id === categoryId;
+        });
+        return filteredPosts;
+      } catch (fallbackError) {
+        console.error('Client-side filtering also failed:', fallbackError);
+        return [];
+      }
     }
+    console.error(`Error fetching posts for category ${categoryId}:`, error);
     throw new Error(`Failed to fetch posts for category: ${categoryId}`);
   }
 }

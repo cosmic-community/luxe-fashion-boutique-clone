@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
-import jwt from 'jsonwebtoken'
+import { SignJWT } from 'jose'
 import { cosmic } from '@/lib/cosmic'
 import { getUserByEmail } from '@/lib/cosmic'
 
@@ -52,16 +52,17 @@ export async function POST(request: NextRequest) {
       },
     })
 
-    // Generate JWT token
-    const token = jwt.sign(
-      {
-        userId: newUser.object.id,
-        email,
-        name,
-      },
-      JWT_SECRET,
-      { expiresIn: '7d' }
-    )
+    // Generate JWT token using jose
+    const secret = new TextEncoder().encode(JWT_SECRET)
+    const token = await new SignJWT({
+      userId: newUser.object.id,
+      email,
+      name,
+    })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setExpirationTime('7d')
+      .setIssuedAt()
+      .sign(secret)
 
     return NextResponse.json({
       success: true,

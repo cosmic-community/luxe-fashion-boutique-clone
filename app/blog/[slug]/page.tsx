@@ -140,7 +140,7 @@ export default async function PostPage({ params }: PostPageProps) {
             </div>
           )}
 
-          {/* Content */}
+          {/* Content - Changed: Added proper prose styling classes */}
           {post.metadata?.content && (
             <div 
               className="prose prose-lg max-w-none mb-12"

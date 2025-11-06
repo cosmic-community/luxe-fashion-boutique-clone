@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { ShoppingBag, ShoppingCart, Sparkles, Info, Menu, X, MessageSquare, Mail, BookOpen } from 'lucide-react'
+import { ShoppingBag, ShoppingCart, Sparkles, Info, Menu, X, MessageSquare, Mail, BookOpen, UserPlus, LogIn } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 
 export default function Header() {
@@ -81,6 +81,20 @@ export default function Header() {
                   {cartCount}
                 </span>
               )}
+            </Link>
+            <Link 
+              href="/login" 
+              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2"
+            >
+              <LogIn className="w-4 h-4" />
+              Login
+            </Link>
+            <Link 
+              href="/signup" 
+              className="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors font-medium flex items-center gap-2"
+            >
+              <UserPlus className="w-4 h-4" />
+              Sign Up
             </Link>
           </div>
           
@@ -164,6 +178,24 @@ export default function Header() {
                   </span>
                 )}
               </Link>
+              <div className="border-t border-gray-200 pt-3 mt-3 space-y-3">
+                <Link 
+                  href="/login" 
+                  className="block text-foreground hover:text-primary transition-colors font-medium py-2 flex items-center gap-2"
+                  onClick={closeMobileMenu}
+                >
+                  <LogIn className="w-4 h-4" />
+                  Login
+                </Link>
+                <Link 
+                  href="/signup" 
+                  className="block bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors font-medium flex items-center gap-2 w-full"
+                  onClick={closeMobileMenu}
+                >
+                  <UserPlus className="w-4 h-4" />
+                  Sign Up
+                </Link>
+              </div>
             </div>
           </div>
         )}

@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: 'Luxe Fashion Boutique - Premium Designer Fashion',
   description: 'Discover luxury fashion pieces from renowned designers. Shop curated collections of dresses, handbags, shoes, and accessories.',
   keywords: 'luxury fashion, designer clothes, high-end fashion, premium accessories, designer handbags, elegant dresses',
+  icons: {
+    icon: '/favicon.svg',
+  },
 }
 
 export default function RootLayout({

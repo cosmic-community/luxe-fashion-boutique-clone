@@ -2,6 +2,8 @@
 
 import { Product } from '@/types'
 import { useState } from 'react'
+import { useCart } from '@/contexts/CartContext'
+import { Check } from 'lucide-react'
 
 interface ProductDetailProps {
   product: Product
@@ -11,6 +13,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const [selectedImage, setSelectedImage] = useState(0)
   const [selectedSize, setSelectedSize] = useState<string>('')
   const [imageLoading, setImageLoading] = useState(false)
+  const [addedToCart, setAddedToCart] = useState(false)
+  const { addToCart } = useCart()
 
   const productName = product.metadata?.product_name || product.title
   const description = product.metadata?.description
@@ -33,6 +37,16 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         setImageLoading(false)
       }, 300)
     }
+  }
+
+  const handleAddToCart = () => {
+    addToCart(product, 1, selectedSize || undefined)
+    setAddedToCart(true)
+    
+    // Reset the "added" state after 2 seconds
+    setTimeout(() => {
+      setAddedToCart(false)
+    }, 2000)
   }
 
   return (
@@ -153,15 +167,22 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           {/* Add to Cart */}
           <div className="space-y-4">
             <button
-              disabled={!inStock || (sizesAvailable.length > 0 && !selectedSize)}
-              className="w-full bg-black text-white py-3 px-6 rounded font-medium hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+              onClick={handleAddToCart}
+              disabled={!inStock || (sizesAvailable.length > 0 && !selectedSize) || addedToCart}
+              className="w-full bg-black text-white py-3 px-6 rounded font-medium hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
             >
-              {!inStock 
-                ? 'Out of Stock' 
-                : sizesAvailable.length > 0 && !selectedSize 
-                  ? 'Select a Size' 
-                  : 'Add to Cart'
-              }
+              {addedToCart ? (
+                <>
+                  <Check className="w-5 h-5" />
+                  Added to Cart
+                </>
+              ) : !inStock ? (
+                'Out of Stock'
+              ) : sizesAvailable.length > 0 && !selectedSize ? (
+                'Select a Size'
+              ) : (
+                'Add to Cart'
+              )}
             </button>
             
             <button className="w-full border border-gray-300 text-gray-700 py-3 px-6 rounded font-medium hover:border-gray-400 transition-colors">

@@ -2,10 +2,13 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { ShoppingBag, Sparkles, Info, Menu, X } from 'lucide-react'
+import { ShoppingBag, ShoppingCart, Sparkles, Info, Menu, X } from 'lucide-react'
+import { useCart } from '@/contexts/CartContext'
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { getCartCount } = useCart()
+  const cartCount = getCartCount()
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -45,6 +48,18 @@ export default function Header() {
             >
               <Info className="w-4 h-4" />
               About
+            </Link>
+            <Link 
+              href="/cart" 
+              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2 relative"
+            >
+              <ShoppingCart className="w-4 h-4" />
+              Cart
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                  {cartCount}
+                </span>
+              )}
             </Link>
           </div>
           
@@ -90,6 +105,19 @@ export default function Header() {
               >
                 <Info className="w-4 h-4" />
                 About
+              </Link>
+              <Link 
+                href="/cart" 
+                className="block text-foreground hover:text-primary transition-colors font-medium py-2 flex items-center gap-2 relative"
+                onClick={closeMobileMenu}
+              >
+                <ShoppingCart className="w-4 h-4" />
+                Cart
+                {cartCount > 0 && (
+                  <span className="ml-2 bg-primary text-primary-foreground text-xs rounded-full px-2 py-1 font-bold">
+                    {cartCount}
+                  </span>
+                )}
               </Link>
             </div>
           </div>

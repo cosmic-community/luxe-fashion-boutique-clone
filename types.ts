@@ -132,6 +132,26 @@ export interface Post extends CosmicObject {
   };
 }
 
+// Event interface
+export interface Event extends CosmicObject {
+  type: 'events';
+  metadata: {
+    event_name?: string;
+    description?: string;
+    event_date?: string;
+    event_time?: string;
+    location?: string;
+    event_image?: {
+      url: string;
+      imgix_url: string;
+    };
+    event_type?: SelectDropdownField;
+    price?: number;
+    registration_link?: string;
+    featured_event?: boolean;
+  };
+}
+
 // User interface for authentication
 export interface User extends CosmicObject {
   type: 'users';
@@ -158,6 +178,7 @@ export interface AuthUser {
 // Type literals for select-dropdown values
 export type ProductSize = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 export type RatingValue = '1' | '2' | '3' | '4' | '5';
+export type EventType = 'Fashion Show' | 'Trunk Show' | 'VIP Shopping Event' | 'Designer Meet & Greet' | 'Workshop';
 
 // API response types
 export interface CosmicResponse<T> {
@@ -199,6 +220,10 @@ export function isAuthor(obj: CosmicObject): obj is Author {
 
 export function isBlogCategory(obj: CosmicObject): obj is BlogCategory {
   return obj.type === 'blog-categories';
+}
+
+export function isEvent(obj: CosmicObject): obj is Event {
+  return obj.type === 'events';
 }
 
 export function isUser(obj: CosmicObject): obj is User {

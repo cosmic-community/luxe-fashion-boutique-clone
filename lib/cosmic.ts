@@ -1,5 +1,5 @@
 import { createBucketClient } from '@cosmicjs/sdk'
-import { Product, Collection, Review, Category, Post, Author, BlogCategory, User, CosmicResponse } from '@/types'
+import { Product, Collection, Review, Category, Post, Author, BlogCategory, User, Event, CosmicResponse } from '@/types'
 
 export const cosmic = createBucketClient({
   bucketSlug: process.env.COSMIC_BUCKET_SLUG as string,
@@ -470,6 +470,90 @@ export async function getBlogCategory(slug: string): Promise<BlogCategory | null
       return null;
     }
     throw new Error(`Failed to fetch blog category: ${slug}`);
+  }
+}
+
+// ============= EVENT FUNCTIONS =============
+
+// Fetch all events
+export async function getEvents(): Promise<Event[]> {
+  try {
+    const response = await cosmic.objects
+      .find({ type: 'events' })
+      .props(['id', 'title', 'slug', 'metadata', 'created_at'])
+      .depth(1);
+    
+    const events = response.objects as Event[];
+    // Sort by event_date (upcoming first)
+    return events.sort((a, b) => {
+      const dateA = new Date(a.metadata?.event_date || a.created_at).getTime();
+      const dateB = new Date(b.metadata?.event_date || b.created_at).getTime();
+      return dateA - dateB;
+    });
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return [];
+    }
+    throw new Error('Failed to fetch events');
+  }
+}
+
+// Fetch single event by slug
+export async function getEvent(slug: string): Promise<Event | null> {
+  try {
+    const response = await cosmic.objects
+      .findOne({ type: 'events', slug })
+      .props(['id', 'title', 'slug', 'metadata', 'created_at'])
+      .depth(1);
+    
+    return response.object as Event;
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return null;
+    }
+    throw new Error(`Failed to fetch event: ${slug}`);
+  }
+}
+
+// Fetch featured events
+export async function getFeaturedEvents(): Promise<Event[]> {
+  try {
+    const response = await cosmic.objects
+      .find({ 
+        type: 'events',
+        'metadata.featured_event': true
+      })
+      .props(['id', 'title', 'slug', 'metadata', 'created_at'])
+      .depth(1);
+    
+    const events = response.objects as Event[];
+    return events.sort((a, b) => {
+      const dateA = new Date(a.metadata?.event_date || a.created_at).getTime();
+      const dateB = new Date(b.metadata?.event_date || b.created_at).getTime();
+      return dateA - dateB;
+    });
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return [];
+    }
+    throw new Error('Failed to fetch featured events');
+  }
+}
+
+// Fetch upcoming events (events with date >= today)
+export async function getUpcomingEvents(): Promise<Event[]> {
+  try {
+    const allEvents = await getEvents();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    return allEvents.filter(event => {
+      if (!event.metadata?.event_date) return false;
+      const eventDate = new Date(event.metadata.event_date);
+      return eventDate >= today;
+    });
+  } catch (error) {
+    throw new Error('Failed to fetch upcoming events');
   }
 }
 

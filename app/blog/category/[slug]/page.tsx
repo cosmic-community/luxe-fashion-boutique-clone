@@ -20,11 +20,10 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   }
 
   const name = category.metadata?.name || category.title
-  const description = category.metadata?.description || `Read posts about ${name}`
 
   return {
     title: `${name} - Blog - Luxe Fashion Boutique`,
-    description
+    description: category.metadata?.description || `Read posts about ${name}`
   }
 }
 
@@ -38,7 +37,12 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       notFound()
     }
 
+    // Changed: Added better error handling and logging for debugging
+    console.log('Category found:', { id: category.id, slug: category.slug, title: category.title })
+    
     const posts = await getPostsByCategory(category.id)
+    console.log(`Found ${posts.length} posts for category ${category.id}`)
+    
     const categoryName = category.metadata?.name || category.title
 
     return (

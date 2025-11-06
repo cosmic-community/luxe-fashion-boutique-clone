@@ -42,7 +42,7 @@ export default function Header() {
               onMouseLeave={() => setIsShopDropdownOpen(false)}
             >
               <button 
-                className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap"
+                className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap pb-2"
                 aria-expanded={isShopDropdownOpen}
               >
                 <ShoppingBag className="w-4 h-4" />
@@ -51,31 +51,33 @@ export default function Header() {
               </button>
               
               {isShopDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 z-50">
-                  <Link 
-                    href="/products" 
-                    className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
-                    onClick={closeAllDropdowns}
-                  >
-                    <ShoppingBag className="w-4 h-4" />
-                    All Products
-                  </Link>
-                  <Link 
-                    href="/collections" 
-                    className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
-                    onClick={closeAllDropdowns}
-                  >
-                    <Sparkles className="w-4 h-4" />
-                    Collections
-                  </Link>
-                  <Link 
-                    href="/categories" 
-                    className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
-                    onClick={closeAllDropdowns}
-                  >
-                    <Building2 className="w-4 h-4" />
-                    Categories
-                  </Link>
+                <div className="absolute top-full left-0 pt-2 w-48 z-50">
+                  <div className="bg-white border border-gray-200 rounded-md shadow-lg py-2">
+                    <Link 
+                      href="/products" 
+                      className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
+                      onClick={closeAllDropdowns}
+                    >
+                      <ShoppingBag className="w-4 h-4" />
+                      All Products
+                    </Link>
+                    <Link 
+                      href="/collections" 
+                      className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
+                      onClick={closeAllDropdowns}
+                    >
+                      <Sparkles className="w-4 h-4" />
+                      Collections
+                    </Link>
+                    <Link 
+                      href="/categories" 
+                      className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
+                      onClick={closeAllDropdowns}
+                    >
+                      <Building2 className="w-4 h-4" />
+                      Categories
+                    </Link>
+                  </div>
                 </div>
               )}
             </div>
@@ -87,7 +89,7 @@ export default function Header() {
               onMouseLeave={() => setIsCompanyDropdownOpen(false)}
             >
               <button 
-                className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap"
+                className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-1.5 whitespace-nowrap pb-2"
                 aria-expanded={isCompanyDropdownOpen}
               >
                 <Info className="w-4 h-4" />
@@ -96,47 +98,49 @@ export default function Header() {
               </button>
               
               {isCompanyDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-2 z-50">
-                  <Link 
-                    href="/about" 
-                    className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
-                    onClick={closeAllDropdowns}
-                  >
-                    <Info className="w-4 h-4" />
-                    About
-                  </Link>
-                  <Link 
-                    href="/blog" 
-                    className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
-                    onClick={closeAllDropdowns}
-                  >
-                    <BookOpen className="w-4 h-4" />
-                    Blog
-                  </Link>
-                  <Link 
-                    href="/events" 
-                    className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
-                    onClick={closeAllDropdowns}
-                  >
-                    <Calendar className="w-4 h-4" />
-                    Events
-                  </Link>
-                  <Link 
-                    href="/testimonials" 
-                    className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
-                    onClick={closeAllDropdowns}
-                  >
-                    <MessageSquare className="w-4 h-4" />
-                    Testimonials
-                  </Link>
-                  <Link 
-                    href="/contact" 
-                    className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
-                    onClick={closeAllDropdowns}
-                  >
-                    <Mail className="w-4 h-4" />
-                    Contact
-                  </Link>
+                <div className="absolute top-full left-0 pt-2 w-48 z-50">
+                  <div className="bg-white border border-gray-200 rounded-md shadow-lg py-2">
+                    <Link 
+                      href="/about" 
+                      className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
+                      onClick={closeAllDropdowns}
+                    >
+                      <Info className="w-4 h-4" />
+                      About
+                    </Link>
+                    <Link 
+                      href="/blog" 
+                      className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
+                      onClick={closeAllDropdowns}
+                    >
+                      <BookOpen className="w-4 h-4" />
+                      Blog
+                    </Link>
+                    <Link 
+                      href="/events" 
+                      className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
+                      onClick={closeAllDropdowns}
+                    >
+                      <Calendar className="w-4 h-4" />
+                      Events
+                    </Link>
+                    <Link 
+                      href="/testimonials" 
+                      className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
+                      onClick={closeAllDropdowns}
+                    >
+                      <MessageSquare className="w-4 h-4" />
+                      Testimonials
+                    </Link>
+                    <Link 
+                      href="/contact" 
+                      className="block px-4 py-2 text-foreground hover:bg-gray-50 hover:text-primary transition-colors flex items-center gap-2"
+                      onClick={closeAllDropdowns}
+                    >
+                      <Mail className="w-4 h-4" />
+                      Contact
+                    </Link>
+                  </div>
                 </div>
               )}
             </div>

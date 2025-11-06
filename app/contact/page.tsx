@@ -1,0 +1,99 @@
+import { Metadata } from 'next'
+import ContactForm from '@/components/ContactForm'
+import { Mail, MapPin, Phone } from 'lucide-react'
+
+export const metadata: Metadata = {
+  title: 'Contact Us - Luxe Fashion Boutique',
+  description: 'Get in touch with Luxe Fashion Boutique. We\'re here to help with any questions about our luxury fashion collections.',
+}
+
+export default function ContactPage() {
+  return (
+    <div className="container mx-auto px-4 py-12">
+      <div className="max-w-6xl mx-auto">
+        {/* Hero Section */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">Get in Touch</h1>
+          <p className="text-xl text-muted-foreground">
+            Have questions about our luxury collections? We'd love to hear from you.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-12">
+          {/* Contact Information */}
+          <div className="space-y-8">
+            <div>
+              <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
+              <div className="space-y-4">
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-primary/10 rounded-lg">
+                    <Mail className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Email</h3>
+                    <a 
+                      href="mailto:tony@cosmicjs.com" 
+                      className="text-muted-foreground hover:text-primary transition-colors"
+                    >
+                      tony@cosmicjs.com
+                    </a>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-primary/10 rounded-lg">
+                    <Phone className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Phone</h3>
+                    <p className="text-muted-foreground">+1 (555) 123-4567</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-4">
+                  <div className="p-3 bg-primary/10 rounded-lg">
+                    <MapPin className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">Address</h3>
+                    <p className="text-muted-foreground">
+                      123 Fashion Avenue<br />
+                      New York, NY 10001<br />
+                      United States
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="border-t pt-8">
+              <h3 className="text-xl font-bold mb-4">Business Hours</h3>
+              <div className="space-y-2 text-muted-foreground">
+                <div className="flex justify-between">
+                  <span>Monday - Friday</span>
+                  <span>9:00 AM - 6:00 PM</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Saturday</span>
+                  <span>10:00 AM - 4:00 PM</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Sunday</span>
+                  <span>Closed</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <div>
+            <div className="border rounded-lg p-8 bg-white shadow-sm">
+              <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
+              <ContactForm />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

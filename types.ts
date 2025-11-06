@@ -168,6 +168,23 @@ export interface User extends CosmicObject {
   };
 }
 
+// Terms of Service interface
+export interface TermsOfService extends CosmicObject {
+  type: 'terms-of-service';
+  metadata: {
+    page_title?: string;
+    last_updated?: string;
+    sections?: {
+      section_title: string;
+      section_content: string;
+      section_order: number;
+    }[];
+    contact_email?: string;
+    contact_phone?: string;
+    contact_address?: string;
+  };
+}
+
 // Auth User interface (for JWT payload)
 export interface AuthUser {
   userId: string;
@@ -228,4 +245,8 @@ export function isEvent(obj: CosmicObject): obj is Event {
 
 export function isUser(obj: CosmicObject): obj is User {
   return obj.type === 'users';
+}
+
+export function isTermsOfService(obj: CosmicObject): obj is TermsOfService {
+  return obj.type === 'terms-of-service';
 }

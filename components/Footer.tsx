@@ -1,15 +1,47 @@
+import { Facebook, Instagram, Twitter } from 'lucide-react'
+
 export default function Footer() {
   const currentYear = new Date().getFullYear()
-
+  
   return (
     <footer className="border-t bg-muted/50 mt-16">
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="font-bold text-lg mb-4">Luxe Fashion Boutique</h3>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground mb-4">
               Discover luxury fashion pieces from renowned designers. Quality, elegance, and style redefined.
             </p>
+            {/* Social Links */}
+            <div className="flex gap-4">
+              <a 
+                href="https://twitter.com/luxefashion" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Follow us on X (Twitter)"
+              >
+                <Twitter className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://instagram.com/luxefashion" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Follow us on Instagram"
+              >
+                <Instagram className="w-5 h-5" />
+              </a>
+              <a 
+                href="https://facebook.com/luxefashion" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Follow us on Facebook"
+              >
+                <Facebook className="w-5 h-5" />
+              </a>
+            </div>
           </div>
           
           <div>

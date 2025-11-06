@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { ShoppingBag, Sparkles, Info, Menu, X } from 'lucide-react'
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -28,19 +29,22 @@ export default function Header() {
               href="/products" 
               className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2"
             >
-              👗 Products
+              <ShoppingBag className="w-4 h-4" />
+              Products
             </Link>
             <Link 
               href="/collections" 
               className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2"
             >
-              ✨ Collections
+              <Sparkles className="w-4 h-4" />
+              Collections
             </Link>
             <Link 
               href="/about" 
               className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2"
             >
-              ℹ️ About
+              <Info className="w-4 h-4" />
+              About
             </Link>
           </div>
           
@@ -52,15 +56,9 @@ export default function Header() {
             aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? (
-              // Close icon
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <X className="w-6 h-6" />
             ) : (
-              // Hamburger icon
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+              <Menu className="w-6 h-6" />
             )}
           </button>
         </nav>
@@ -74,21 +72,24 @@ export default function Header() {
                 className="block text-foreground hover:text-primary transition-colors font-medium py-2 flex items-center gap-2"
                 onClick={closeMobileMenu}
               >
-                👗 Products
+                <ShoppingBag className="w-4 h-4" />
+                Products
               </Link>
               <Link 
                 href="/collections" 
                 className="block text-foreground hover:text-primary transition-colors font-medium py-2 flex items-center gap-2"
                 onClick={closeMobileMenu}
               >
-                ✨ Collections
+                <Sparkles className="w-4 h-4" />
+                Collections
               </Link>
               <Link 
                 href="/about" 
                 className="block text-foreground hover:text-primary transition-colors font-medium py-2 flex items-center gap-2"
                 onClick={closeMobileMenu}
               >
-                ℹ️ About
+                <Info className="w-4 h-4" />
+                About
               </Link>
             </div>
           </div>

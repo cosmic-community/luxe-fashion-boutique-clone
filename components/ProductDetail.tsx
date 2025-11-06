@@ -2,6 +2,7 @@
 
 import { Product } from '@/types'
 import { useState } from 'react'
+import { useCart } from '@/contexts/CartContext'
 
 interface ProductDetailProps {
   product: Product
@@ -11,6 +12,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
   const [selectedImage, setSelectedImage] = useState(0)
   const [selectedSize, setSelectedSize] = useState<string>('')
   const [imageLoading, setImageLoading] = useState(false)
+  const [addedToCart, setAddedToCart] = useState(false)
+  const { addToCart } = useCart()
 
   const productName = product.metadata?.product_name || product.title
   const description = product.metadata?.description
@@ -33,6 +36,16 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         setImageLoading(false)
       }, 300)
     }
+  }
+
+  const handleAddToCart = () => {
+    addToCart(product, selectedSize || undefined)
+    setAddedToCart(true)
+    
+    // Reset the "Added to Cart" message after 2 seconds
+    setTimeout(() => {
+      setAddedToCart(false)
+    }, 2000)
   }
 
   return (
@@ -153,6 +166,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
           {/* Add to Cart */}
           <div className="space-y-4">
             <button
+              onClick={handleAddToCart}
               disabled={!inStock || (sizesAvailable.length > 0 && !selectedSize)}
               className="w-full bg-black text-white py-3 px-6 rounded font-medium hover:bg-gray-800 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
             >
@@ -160,7 +174,9 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                 ? 'Out of Stock' 
                 : sizesAvailable.length > 0 && !selectedSize 
                   ? 'Select a Size' 
-                  : 'Add to Cart'
+                  : addedToCart
+                    ? '✓ Added to Cart!'
+                    : 'Add to Cart'
               }
             </button>
             

@@ -2,9 +2,11 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { useCart } from '@/contexts/CartContext'
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { cartItemCount } = useCart()
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -41,6 +43,17 @@ export default function Header() {
               className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2"
             >
               ℹ️ About
+            </Link>
+            <Link 
+              href="/cart" 
+              className="text-foreground hover:text-primary transition-colors font-medium flex items-center gap-2 relative"
+            >
+              🛒 Cart
+              {cartItemCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                  {cartItemCount}
+                </span>
+              )}
             </Link>
           </div>
           
@@ -89,6 +102,18 @@ export default function Header() {
                 onClick={closeMobileMenu}
               >
                 ℹ️ About
+              </Link>
+              <Link 
+                href="/cart" 
+                className="block text-foreground hover:text-primary transition-colors font-medium py-2 flex items-center gap-2 relative"
+                onClick={closeMobileMenu}
+              >
+                🛒 Cart
+                {cartItemCount > 0 && (
+                  <span className="bg-primary text-white text-xs rounded-full px-2 py-1 font-bold">
+                    {cartItemCount}
+                  </span>
+                )}
               </Link>
             </div>
           </div>

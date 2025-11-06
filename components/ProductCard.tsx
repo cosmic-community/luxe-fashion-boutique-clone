@@ -1,5 +1,10 @@
+'use client'
+
 import Link from 'next/link'
 import { Product } from '@/types'
+import { ShoppingCart } from 'lucide-react'
+import { useCart } from '@/contexts/CartContext'
+import { useState } from 'react'
 
 interface ProductCardProps {
   product: Product
@@ -7,6 +12,9 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, className = '' }: ProductCardProps) {
+  const { addToCart } = useCart()
+  const [isAdding, setIsAdding] = useState(false)
+
   const productName = product.metadata?.product_name || product.title
   const price = product.metadata?.price
   const category = product.metadata?.category
@@ -14,6 +22,22 @@ export default function ProductCard({ product, className = '' }: ProductCardProp
   const inStock = product.metadata?.in_stock ?? true
   const featuredProduct = product.metadata?.featured_product
   const productImage = product.metadata?.product_images?.[0]
+  const sizesAvailable = product.metadata?.sizes_available || []
+
+  const handleQuickAdd = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    
+    // Only allow quick add if product doesn't require size selection
+    if (sizesAvailable.length === 0 && inStock) {
+      setIsAdding(true)
+      addToCart(product, 1)
+      
+      setTimeout(() => {
+        setIsAdding(false)
+      }, 1000)
+    }
+  }
 
   return (
     <div className={`group relative ${className}`}>
@@ -54,14 +78,26 @@ export default function ProductCard({ product, className = '' }: ProductCardProp
                 <p className="text-sm text-white/90 mb-2">{designerBrand}</p>
               )}
               
-              {/* Price */}
+              {/* Price and Actions */}
               <div className="flex items-center justify-between">
                 {price && (
                   <span className="text-xl font-bold">${price.toLocaleString()}</span>
                 )}
                 
-                {/* Stock Status */}
                 <div className="flex items-center gap-2">
+                  {/* Quick Add to Cart - only show if no size selection needed */}
+                  {sizesAvailable.length === 0 && inStock && (
+                    <button
+                      onClick={handleQuickAdd}
+                      disabled={isAdding}
+                      className="bg-white/90 hover:bg-white text-black p-2 rounded-full transition-all duration-200 hover:scale-110 disabled:opacity-50 disabled:cursor-not-allowed"
+                      aria-label="Quick add to cart"
+                    >
+                      <ShoppingCart className="w-4 h-4" />
+                    </button>
+                  )}
+                  
+                  {/* Status Badges */}
                   {featuredProduct && (
                     <span className="bg-primary text-primary-foreground px-2 py-1 rounded text-xs">
                       Featured

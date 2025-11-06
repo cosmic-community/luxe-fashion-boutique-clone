@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { ShoppingBag, ShoppingCart, Sparkles, Info, Menu, X, Mail, MessageSquare } from 'lucide-react'
+import { ShoppingBag, ShoppingCart, Sparkles, Info, Menu, X, MessageSquare } from 'lucide-react'
 import { useCart } from '@/contexts/CartContext'
 
 export default function Header() {

@@ -22,38 +22,45 @@ export default async function CategoriesPage() {
 
         {categories.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {categories.map((category) => (
-              <Link
-                key={category.id}
-                href={`/products?category=${category.slug}`}
-                className="group block"
-              >
-                <div className="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-shadow">
-                  {/* Category Image */}
-                  {category.metadata?.category_image && (
-                    <div className="aspect-video overflow-hidden">
-                      <img
-                        src={`${category.metadata.category_image.imgix_url}?w=600&h=400&fit=crop&auto=format,compress`}
-                        alt={category.metadata?.category_name || category.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  )}
-                  
-                  {/* Category Details */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
-                      {category.metadata?.category_name || category.title}
-                    </h3>
-                    {category.metadata?.description && (
-                      <p className="text-muted-foreground text-sm">
-                        {category.metadata.description}
-                      </p>
+            {categories.map((category) => {
+              // Clean HTML from description for display
+              const cleanDescription = category.metadata?.description 
+                ? category.metadata.description.replace(/<[^>]*>/g, '').trim()
+                : '';
+
+              return (
+                <Link
+                  key={category.id}
+                  href={`/products?category=${category.slug}`}
+                  className="group block"
+                >
+                  <div className="bg-white rounded-lg shadow-sm border overflow-hidden hover:shadow-md transition-shadow">
+                    {/* Category Image */}
+                    {category.metadata?.category_image && (
+                      <div className="aspect-video overflow-hidden">
+                        <img
+                          src={`${category.metadata.category_image.imgix_url}?w=600&h=400&fit=crop&auto=format,compress`}
+                          alt={category.metadata?.category_name || category.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
                     )}
+                    
+                    {/* Category Details */}
+                    <div className="p-6">
+                      <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
+                        {category.metadata?.category_name || category.title}
+                      </h3>
+                      {cleanDescription && (
+                        <p className="text-muted-foreground text-sm">
+                          {cleanDescription}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
+                </Link>
+              );
+            })}
           </div>
         ) : (
           <div className="text-center py-16">
